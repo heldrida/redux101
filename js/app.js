@@ -32,16 +32,26 @@ expect(
 
 console.log('Tests passed!');
 
-
+// Store expects a Reducer fn
 const { createStore } = Redux;
 const store = createStore(counter);
+
 const render = () => {
   document.body.innerText = store.getState();
 };
 
-store.subscribe(render);
+// Register a callback everytime an action has been dispatched
+/*
+ * The following is not called at least once
+store.subscribe(() => {
+  document.body.innerText = store.getState();
+});
+*/
+
+// Call at least once to render initial state
 render();
 
+// Event listener
 document.addEventListener('click', () => {
   store.dispatch({ type: 'INCREMENT' });
 });
