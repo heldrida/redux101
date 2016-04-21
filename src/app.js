@@ -12,32 +12,44 @@ const counter = (state = 0, action) => {
       return state;
   }
 };
-console.log('a122123222');
 
 // Store expects a Reducer fn
 const { createStore } = Redux;
 const store = createStore(counter);
 
-const Counter = ({ value }) => (
-  <h1>{value}</h1>
+const Counter = ({
+  value,
+  onIncrement,
+  onDecrement
+}) => (
+  <div>
+    <h1>{value}</h1>
+    <button onClick={onIncrement}>+</button>
+    <button onClick={onDecrement}>-</button>
+  </div>
 );
 
 const render = () => {
   ReactDOM.render(
-    <Counter value={store.getState()}/>,
+    <Counter
+      value={store.getState()}
+      onIncrement={() =>
+        store.dispatch({
+          type: 'INCREMENT'
+        })
+      }
+      onDecrement={() =>
+        store.dispatch({
+          type: 'DECREMENT'
+        })
+      }
+    />,
     document.getElementById('root')
   );
-};
-
-
+}
 
 // Register a callback everytime an action has been dispatched
 store.subscribe(render);
 
 // Call at least once to render initial state
 render();
-
-// Event listener
-document.addEventListener('click', () => {
-  store.dispatch({ type: 'INCREMENT' });
-});

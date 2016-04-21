@@ -25,7 +25,7 @@ gulp.task('transpile', function () {
 gulp.task('watch', function() {
   gulp.watch('./sass/**/*.scss', ['sass']);
   gulp.watch("./**/*.html", ['reload']);
-  gulp.watch("./src/**/*.js", ['transpile']);
+  gulp.watch("./src/**/*.js", ['transpile', 'reload']);
 });
 
 gulp.task('reload', function () {

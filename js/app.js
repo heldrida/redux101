@@ -12,20 +12,45 @@ const counter = (state = 0, action) => {
       return state;
   }
 };
-console.log('a122123222');
 
 // Store expects a Reducer fn
 const { createStore } = Redux;
 const store = createStore(counter);
 
-const Counter = ({ value }) => React.createElement(
-  'h1',
+const Counter = ({
+  value,
+  onIncrement,
+  onDecrement
+}) => React.createElement(
+  'div',
   null,
-  value
+  React.createElement(
+    'h1',
+    null,
+    value
+  ),
+  React.createElement(
+    'button',
+    { onClick: onIncrement },
+    '+'
+  ),
+  React.createElement(
+    'button',
+    { onClick: onDecrement },
+    '-'
+  )
 );
 
 const render = () => {
-  ReactDOM.render(React.createElement(Counter, { value: store.getState() }), document.getElementById('root'));
+  ReactDOM.render(React.createElement(Counter, {
+    value: store.getState(),
+    onIncrement: () => store.dispatch({
+      type: 'INCREMENT'
+    }),
+    onDecrement: () => store.dispatch({
+      type: 'DECREMENT'
+    })
+  }), document.getElementById('root'));
 };
 
 // Register a callback everytime an action has been dispatched
@@ -33,8 +58,3 @@ store.subscribe(render);
 
 // Call at least once to render initial state
 render();
-
-// Event listener
-document.addEventListener('click', () => {
-  store.dispatch({ type: 'INCREMENT' });
-});
