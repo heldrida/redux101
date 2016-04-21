@@ -18,15 +18,18 @@ console.log('a122123222');
 const { createStore } = Redux;
 const store = createStore(counter);
 
-const Counter = ({ value }) => React.createElement(
-  'h1',
-  null,
-  value
+const Counter = ({ value }) => (
+  <h1>{value}</h1>
 );
 
 const render = () => {
-  ReactDOM.render(React.createElement(Counter, { value: store.getState() }), document.getElementById('root'));
+  ReactDOM.render(
+    <Counter value={store.getState()}/>,
+    document.getElementById('root')
+  );
 };
+
+
 
 // Register a callback everytime an action has been dispatched
 store.subscribe(render);

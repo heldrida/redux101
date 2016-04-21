@@ -2,7 +2,8 @@ var gulp = require('gulp'),
   sass = require('gulp-sass'),
   plumber = require('gulp-plumber'),
   rename = require('gulp-rename');
-  browserSync = require('browser-sync').create();
+  browserSync = require('browser-sync').create(),
+  babel = require('gulp-babel');
 
 gulp.task('sass', function() {
   return gulp.src('./sass/**/*.scss')
@@ -13,10 +14,18 @@ gulp.task('sass', function() {
 	.pipe(browserSync.stream());
 });
 
+gulp.task('transpile', function () {
+	return gulp.src('./src/app.js')
+		.pipe(babel({
+			presets: ['react']
+		}))
+		.pipe(gulp.dest('./js'));
+});
+
 gulp.task('watch', function() {
   gulp.watch('./sass/**/*.scss', ['sass']);
   gulp.watch("./**/*.html", ['reload']);
-  gulp.watch("./js/**/*.js", ['reload']);
+  gulp.watch("./src/**/*.js", ['transpile']);
 });
 
 gulp.task('reload', function () {
